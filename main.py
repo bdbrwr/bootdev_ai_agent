@@ -16,13 +16,14 @@ def main():
         print('\nUsage: python main.py "your prompt here"')
         print('Example: python main.py "How do I build a calculator app?"')
         sys.exit(1)
-    user_prompt = " ".join(args)
+    user_prompt = args[0]
 
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt)])
     ]
 
-    generate_content(client, messages)
+    response = generate_content(client, messages)
+    verbose(args, response)
 
 def generate_content(client, messages):
     response = client.models.generate_content(
@@ -31,10 +32,15 @@ def generate_content(client, messages):
     )
     print("Response:")
     print(response.text)
+    return response
 
 
-if __name__ == "__main__":
-    main()
+def verbose(args, response):
+    if "--verbose" not in args:
+        return
+    print("User prompt:", args[0])
+    print("Prompt tokens:", response.usage_metadata.prompt_token_count)
+    print("Response tokens:", response.usage_metadata.candidates_token_count)
 
 
 if __name__ == "__main__":
