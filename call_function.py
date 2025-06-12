@@ -5,6 +5,8 @@ from functions.get_file_content import schema_get_file_content, get_file_content
 from functions.write_file_content import schema_write_file, write_file
 from functions.run_python import schema_run_python_file, run_python_file
 
+from config import WORKING_DIR
+
 available_functions = types.Tool(
     function_declarations=[
         schema_get_files_info,
